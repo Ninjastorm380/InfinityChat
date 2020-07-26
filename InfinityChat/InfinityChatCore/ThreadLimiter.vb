@@ -1,4 +1,4 @@
-﻿Public Class Limiter
+﻿Public Class ThreadLimiter
     Private FPSStartTime As Long = System.Diagnostics.Stopwatch.GetTimestamp()
     Private FPSFrameCount As Long = 0
     Public Property IterationsPerSecond As Integer

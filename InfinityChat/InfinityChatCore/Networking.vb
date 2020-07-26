@@ -50,7 +50,7 @@
             End Try
         End Sub
         Private Sub QueueMethod()
-            Dim QueueLimiter As New Limiter(150)
+            Dim QueueLimiter As New ThreadLimiter(150)
             Do While Connected = True
 
                 If Stream.DataAvailable = True Then
