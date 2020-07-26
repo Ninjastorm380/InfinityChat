@@ -1,11 +1,29 @@
 ﻿Public Class Server : Inherits ServerBase
 
     Friend Overrides Sub ServerMain(Client As Networking.QueuedTcpClient)
-        Throw New NotImplementedException()
+        Dim CommandLimiter As New ThreadLimiter(5)
+        Client.CreateQueue("COMMAND")
+        While Client.Connected = True And Running = True
+            If Client.HasData("COMMAND") = True Then
+                Dim Data As Byte()() = Serialization.DeserializeArray(Client.Read("COMMAND"))
+                Select Case System.Text.ASCIIEncoding.ASCII.GetString(Data(0))
+                    Case "server.connections.disconnect"
+                        Client.Write("COMMAND", Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes("server.connections.disconnect.return")}))
+                        Client.Close()
+                End Select
+            End If
+            CommandLimiter.Limit()
+        End While
     End Sub
 
     Friend Overrides Sub ServerPing(Client As Networking.QueuedTcpClient)
-        Throw New NotImplementedException()
+        Dim PingLimiter As New ThreadLimiter(5)
+        Client.CreateQueue("PING")
+        While Client.Connected = True And Running = True
+            Client.Write("PING", Serialization.SerializeArray({}))
+            If Client.HasData("PING") = True Then Client.Read("PING")
+            PingLimiter.Limit()
+        End While
     End Sub
 End Class
 
