@@ -32,13 +32,19 @@
         End While
     End Sub
     Public Sub Connect(Address As String, EncryptionKey As String)
-        Dim AddressData As String() = Address.Split(":")
-        Client = New Networking.QueuedTcpClient(AddressData(0), AddressData(1), EncryptionKey)
-        Dim ServerMainMethodThread As New Threading.Thread(Sub()
-                                                               RaiseEvent ClientConnected(Me, Client)
-                                                               ClientMain(Client)
-                                                               RaiseEvent ClientDisconnected(Me, Client)
-                                                           End Sub) : ServerMainMethodThread.Start()
-        Dim ServerPingMethodThread As New Threading.Thread(Sub() ClientPing(Client)) : ServerPingMethodThread.Start()
+        If Connected = False Then
+            Dim AddressData As String() = Address.Split(":")
+            If Client IsNot Nothing Then Client.Dispose()
+            Client = New Networking.QueuedTcpClient(AddressData(0), AddressData(1), EncryptionKey)
+            Dim ServerMainMethodThread As New Threading.Thread(Sub()
+                                                                   RaiseEvent ClientConnected(Me, Client)
+                                                                   ClientMain(Client)
+                                                                   RaiseEvent ClientDisconnected(Me, Client)
+                                                               End Sub) : ServerMainMethodThread.Start()
+            Dim ServerPingMethodThread As New Threading.Thread(Sub() ClientPing(Client)) : ServerPingMethodThread.Start()
+        End If
+    End Sub
+    Public Sub Disconnect()
+        If Connected = True Then Client.Write("COMMAND", Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes("server.connections.disconnect")}))
     End Sub
 End Class
