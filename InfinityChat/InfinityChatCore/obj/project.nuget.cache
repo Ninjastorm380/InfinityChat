@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "1g4s4wy5AIWXfPsRa7Ndmz+X22yw+S2bafTExn4Ah5Zaqntt01Qr1/dXUaGlCB4XgCiD4S4pvBQKt4lrKI6g5A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\EpicDev\\Source\\Repos\\Ninjastorm380\\InfinityChat\\InfinityChat\\InfinityChatCore\\InfinityChatCore.vbproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\EpicDev\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\EpicDev\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
