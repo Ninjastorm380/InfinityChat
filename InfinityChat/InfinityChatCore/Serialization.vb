@@ -1,5 +1,5 @@
 Public Class Serialization
-    Public Shared Function SerializeArray(Data As Byte()()) As Byte()
+    Public Shared Function SerializeArray(ByVal Data As Byte()()) As Byte()
 
 
 
@@ -40,7 +40,7 @@ Public Class Serialization
         Return DataOut
     End Function
 
-    Public Shared Function DeserializeArray(Data As Byte()) As Byte()()
+    Public Shared Function DeserializeArray(ByVal Data As Byte()) As Byte()()
 
         Dim ByteIndex As Integer = 0
 

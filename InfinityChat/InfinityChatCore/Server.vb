@@ -1,26 +1,40 @@
 ﻿Public Class Server : Inherits ServerBase
 
     Friend Overrides Sub ServerMain(Client As Networking.QueuedTcpClient)
-        Dim CommandLimiter As New ThreadLimiter(5)
+        Dim CommandLimiter As New ThreadLimiter(1)
+        Debug.Print("Server: Creating Command Channel")
         Client.CreateQueue("COMMAND")
+        Do Until Client.QueueExists("COMMAND") = True
+            Client.CreateQueue("COMMAND")
+            CommandLimiter.Limit()
+        Loop
+        CommandLimiter.IterationsPerSecond = 5
+        Debug.Print("Server: Command Channel Created")
         While Client.Connected = True And Running = True
             If Client.HasData("COMMAND") = True Then
                 Dim Data As Byte()() = Serialization.DeserializeArray(Client.Read("COMMAND"))
                 Select Case System.Text.ASCIIEncoding.ASCII.GetString(Data(0))
                     Case "server.connections.disconnect"
                         Client.Write("COMMAND", Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes("server.connections.disconnect.return")}))
-                        Client.Close()
+                        Exit While
                 End Select
             End If
             CommandLimiter.Limit()
         End While
+        Client.Close()
     End Sub
-
     Friend Overrides Sub ServerPing(Client As Networking.QueuedTcpClient)
-        Dim PingLimiter As New ThreadLimiter(5)
+        Dim PingLimiter As New ThreadLimiter(1)
+        Debug.Print("Server: Creating Ping Channel")
         Client.CreateQueue("PING")
+        Do Until Client.QueueExists("PING") = True
+            Client.CreateQueue("PING")
+            PingLimiter.Limit()
+        Loop
+        PingLimiter.IterationsPerSecond = 5
+        Debug.Print("Server: Ping Channel Created")
         While Client.Connected = True And Running = True
-            Client.Write("PING", Serialization.SerializeArray({}))
+            Client.Write("PING", Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes("PING")}))
             If Client.HasData("PING") = True Then Client.Read("PING")
             PingLimiter.Limit()
         End While
@@ -45,7 +59,8 @@ Public MustInherit Class ServerBase
     Protected Sub New()
         Me.IsRunning = False
     End Sub
-    Public Sub Start(Port As Integer)
+    Public Sub Start(Port As Integer, Key As String)
+        CryptographicKey = Key
 #Disable Warning BC40000
         Me.listener = New Net.Sockets.TcpListener(Port)
 #Enable Warning BC40000

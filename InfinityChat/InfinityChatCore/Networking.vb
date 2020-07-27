@@ -3,15 +3,15 @@
         Private CryptographicKey As String = Nothing
         Public Shadows Property Connected As Boolean = False
         Private Stream As Net.Sockets.NetworkStream = Nothing
-        Private ReadQueue As Dictionary(Of Byte(), List(Of Byte()))
-        Private WriteQueue As Dictionary(Of Byte(), List(Of Byte()))
+        Private ReadQueue As Dictionary(Of String, List(Of Byte()))
+        Private WriteQueue As Dictionary(Of String, List(Of Byte()))
         Public Sub New(Address As String, Port As Integer, Key As String)
             MyBase.New(Address, Port)
             Connected = True
             CryptographicKey = Key
             Stream = Me.GetStream
-            ReadQueue = New Dictionary(Of Byte(), List(Of Byte()))
-            WriteQueue = New Dictionary(Of Byte(), List(Of Byte()))
+            ReadQueue = New Dictionary(Of String, List(Of Byte()))
+            WriteQueue = New Dictionary(Of String, List(Of Byte()))
             Dim QueueThread As New Threading.Thread(AddressOf QueueMethod) : QueueThread.Start()
         End Sub
         Public Sub New(Client As Net.Sockets.Socket, Key As String)
@@ -21,133 +21,83 @@
             CryptographicKey = Key
             Stream = Me.GetStream
 
-            ReadQueue = New Dictionary(Of Byte(), List(Of Byte()))
-            WriteQueue = New Dictionary(Of Byte(), List(Of Byte()))
+            ReadQueue = New Dictionary(Of String, List(Of Byte()))
+            WriteQueue = New Dictionary(Of String, List(Of Byte()))
             Dim QueueThread As New Threading.Thread(AddressOf QueueMethod) : QueueThread.Start()
         End Sub
-        Public Sub CreateQueue(ID As String)
-            Dim ByteID As Byte() = System.Text.ASCIIEncoding.ASCII.GetBytes(ID)
+        Private Function StreamDisposed() As Boolean
             Try
-                If ReadQueue.ContainsKey(ByteID) = False Then
-                    ReadQueue.Add(ByteID, New List(Of Byte()))
-                End If
-                If WriteQueue.ContainsKey(ByteID) = False Then
-                    WriteQueue.Add(ByteID, New List(Of Byte()))
-                End If
-            Catch ex As NullReferenceException
+                Dim DataAvailable = Stream.DataAvailable
+                Return False
+            Catch StreamDisposedError As ObjectDisposedException
+                Connected = False
+                Return True
             End Try
-        End Sub
-        Public Sub CreateQueue(ID As Byte())
-            Dim ByteID As Byte() = ID
-            Try
-                If ReadQueue.ContainsKey(ByteID) = False Then
-                    ReadQueue.Add(ByteID, New List(Of Byte()))
-                End If
-                If WriteQueue.ContainsKey(ByteID) = False Then
-                    WriteQueue.Add(ByteID, New List(Of Byte()))
-                End If
-            Catch ex As NullReferenceException
-            End Try
-        End Sub
+        End Function
+
         Private Sub QueueMethod()
             Dim QueueLimiter As New ThreadLimiter(150)
-            Do While Connected = True
-
-                If Stream.DataAvailable = True Then
-                    Dim Input(Available - 1) As Byte
-                    Stream.Read(Input, 0, Input.Length)
-                    Dim Data As Byte()() = Serialization.DeserializeArray(Cryptography.DecryptAES256(Input, CryptographicKey))
-                    If ReadQueue.ContainsKey(Data(0)) = False Then
-                        CreateQueue(Data(0))
-                    End If
-                    ReadQueue(Data(0)).Add(Data(1))
+            Dim DataAvailable As Boolean = False
+            While Connected = True
+                If StreamDisposed() = False AndAlso Stream.DataAvailable = True Then
+                    Do Until StreamDisposed() = True OrElse Stream.DataAvailable = False
+                        Dim Input(Available - 1) As Byte
+                        Stream.Read(Input, 0, Input.Length)
+                        Dim Data As Byte()() = Serialization.DeserializeArray(Cryptography.DecryptAES256(Input, CryptographicKey))
+                        Dim Key As String = System.Text.ASCIIEncoding.ASCII.GetString(Data(0))
+                        If ReadQueue.ContainsKey(Key) = True Then
+                            ReadQueue(Key).Add(Data(1))
+                        Else
+                        End If
+                    Loop
                 End If
-
-                For x = 0 To WriteQueue.Keys.Count - 1
-                    If WriteQueue(WriteQueue.Keys(x)).Count > 0 Then
-                        Dim Data As Byte() = WriteQueue(WriteQueue.Keys(x))(0)
-                        Dim Output As Byte() = Cryptography.EncryptAES256(Serialization.SerializeArray({WriteQueue.Keys(x), Data}), CryptographicKey)
-                        Stream.Write(Output, 0, Output.Length)
-                        WriteQueue(WriteQueue.Keys(x)).RemoveAt(0)
-                    End If
-                Next
-
+                If StreamDisposed() = False Then
+                    For x = 0 To WriteQueue.Keys.Count - 1
+                        Try
+                            If WriteQueue(WriteQueue.Keys(x)).Count > 0 Then
+                                Dim Data As Byte() = WriteQueue(WriteQueue.Keys(x))(0)
+                                Dim Output As Byte() = Cryptography.EncryptAES256(Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes(WriteQueue.Keys(x)), Data}), CryptographicKey)
+                                Try : Stream.Write(Output, 0, Output.Length) : Catch StreamIOException As System.IO.IOException : Connected = False : End Try
+                                WriteQueue(WriteQueue.Keys(x)).RemoveAt(0)
+                            End If
+                        Catch ex As InvalidOperationException
+                        End Try
+                    Next
+                End If
                 QueueLimiter.Limit()
-            Loop
+            End While
         End Sub
-        Public Sub DestroyQueue(ID As String)
-            Dim ByteID As Byte() = System.Text.ASCIIEncoding.ASCII.GetBytes(ID)
-            If ReadQueue.ContainsKey(ByteID) = True Then
 
-                ReadQueue.Remove(ByteID)
-            End If
-            If WriteQueue.ContainsKey(ByteID) = True Then
-                WriteQueue.Remove(ByteID)
-            End If
-        End Sub
-        Public Sub DestroyQueue(ID As Byte())
-            Dim ByteID As Byte() = ID
-            If ReadQueue.ContainsKey(ByteID) = True Then
-
-                ReadQueue.Remove(ByteID)
-            End If
-            If WriteQueue.ContainsKey(ByteID) = True Then
-                WriteQueue.Remove(ByteID)
-            End If
-        End Sub
         Public Function Read(ID As String) As Byte()
-            Dim ByteID As Byte() = System.Text.ASCIIEncoding.ASCII.GetBytes(ID)
-            If ReadQueue.ContainsKey(ByteID) = True Then
-                Dim Data As Byte() = ReadQueue(ByteID)(0)
-                ReadQueue(ByteID).RemoveAt(0)
-                Return Data
-            Else
-                CreateQueue(ID)
-                Return Nothing
-            End If
+            Dim Data As Byte() = ReadQueue(ID)(0)
+            ReadQueue(ID).RemoveAt(0)
+            Return Data
         End Function
         Public Sub Write(ID As String, Data As Byte())
-            Dim ByteID As Byte() = System.Text.ASCIIEncoding.ASCII.GetBytes(ID)
-            If WriteQueue.ContainsKey(ByteID) = False Then
-                CreateQueue(ByteID)
-            End If
-            WriteQueue(ByteID).Add(Data)
+            WriteQueue(ID).Add(Data)
         End Sub
         Public Function HasData(ID As String) As Boolean
-            Dim ByteID As Byte() = System.Text.ASCIIEncoding.ASCII.GetBytes(ID)
-            If ReadQueue.ContainsKey(ByteID) = True Then
-                Return ReadQueue(ByteID).Count > 0
-            Else
-                CreateQueue(ByteID)
-                Return False
-            End If
+            Return ReadQueue(ID).Count > 0
         End Function
-        Public Function Read(ID As Byte()) As Byte()
-            Dim ByteID As Byte() = ID
-            If ReadQueue.ContainsKey(ByteID) = True Then
-                Dim Data As Byte() = ReadQueue(ByteID)(0)
-                ReadQueue(ByteID).RemoveAt(0)
-                Return Data
-            Else
-                CreateQueue(ID)
-                Return Nothing
+        Public Sub CreateQueue(ID As String)
+            If ReadQueue.ContainsKey(ID) = False Then
+                ReadQueue.Add(ID, New List(Of Byte()))
             End If
-        End Function
-        Public Sub Write(ID As Byte(), Data As Byte())
-            Dim ByteID As Byte() = ID
-            If WriteQueue.ContainsKey(ByteID) = False Then
-                CreateQueue(ByteID)
+            If WriteQueue.ContainsKey(ID) = False Then
+                WriteQueue.Add(ID, New List(Of Byte()))
             End If
-            WriteQueue(ByteID).Add(Data)
         End Sub
-        Public Function HasData(ID As Byte()) As Boolean
-            Dim ByteID As Byte() = ID
-            If ReadQueue.ContainsKey(ByteID) = True Then
-                Return ReadQueue(ByteID).Count > 0
-            Else
-                CreateQueue(ByteID)
-                Return False
-            End If
+        Public Function QueueExists(ID As String) As Boolean
+            Return ReadQueue.ContainsKey(ID) And WriteQueue.ContainsKey(ID)
         End Function
+        Public Sub DestroyQueue(ID As String)
+            If ReadQueue.ContainsKey(ID) = True Then
+
+                ReadQueue.Remove(ID)
+            End If
+            If WriteQueue.ContainsKey(ID) = True Then
+                WriteQueue.Remove(ID)
+            End If
+        End Sub
     End Class
 End Class
