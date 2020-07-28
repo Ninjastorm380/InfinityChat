@@ -1,20 +1,12 @@
 Public Class Serialization
     Public Shared Function SerializeArray(ByVal Data As Byte()()) As Byte()
 
-
-
         Dim OutputLength As Integer = 0
         For x = 0 To Data.Length - 1
             OutputLength += Data(x).Length
         Next
         OutputLength += (Data.Length * 4) + 4
         Dim DataOut(OutputLength - 1) As Byte
-
-
-
-
-
-
 
         Dim ItemIndex As Integer = 0
         Dim ItemCount As Byte() = BitConverter.GetBytes(Data.Length)
@@ -25,17 +17,18 @@ Public Class Serialization
         ItemIndex += 4
 
         For x = 0 To Data.Length - 1
-            Dim LengthBytes As Byte() = BitConverter.GetBytes(Data(x).Length)
-            For y = 0 To LengthBytes.Length - 1
-                DataOut(y + ItemIndex) = LengthBytes(y)
-            Next
+            Dim LengthBytes As Byte()
+            LengthBytes = BitConverter.GetBytes(Data(x).Length)
+            DataOut(0 + ItemIndex) = LengthBytes(0)
+            DataOut(1 + ItemIndex) = LengthBytes(1)
+            DataOut(2 + ItemIndex) = LengthBytes(2)
+            DataOut(3 + ItemIndex) = LengthBytes(3)
             ItemIndex += 4
             For y = 0 To Data(x).Length - 1
                 DataOut(y + ItemIndex) = Data(x)(y)
             Next
             ItemIndex += Data(x).Length
         Next
-
 
         Return DataOut
     End Function

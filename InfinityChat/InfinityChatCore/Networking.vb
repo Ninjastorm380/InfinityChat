@@ -1,6 +1,7 @@
 ﻿Public Class Networking
     Public Class QueuedTcpClient : Inherits Net.Sockets.TcpClient
         Private CryptographicKey As String = Nothing
+        Public Property ItemName As String = ""
         Public Shadows Property Connected As Boolean = False
         Private Stream As Net.Sockets.NetworkStream = Nothing
         Private ReadQueue As Dictionary(Of String, List(Of Byte()))
@@ -48,18 +49,25 @@
                         If ReadQueue.ContainsKey(Key) = True Then
                             ReadQueue(Key).Add(Data(1))
                         Else
+
                         End If
                     Loop
                 End If
                 If StreamDisposed() = False Then
                     For x = 0 To WriteQueue.Keys.Count - 1
+                        Dim ID As String = WriteQueue.Keys(x)
                         Try
-                            If WriteQueue(WriteQueue.Keys(x)).Count > 0 Then
-                                Dim Data As Byte() = WriteQueue(WriteQueue.Keys(x))(0)
-                                Dim Output As Byte() = Cryptography.EncryptAES256(Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes(WriteQueue.Keys(x)), Data}), CryptographicKey)
-                                Try : Stream.Write(Output, 0, Output.Length) : Catch StreamIOException As System.IO.IOException : Connected = False : End Try
-                                WriteQueue(WriteQueue.Keys(x)).RemoveAt(0)
-                            End If
+                            If WriteQueue(ID).Count > 0 Then
+                                Dim Data As Byte() = WriteQueue(ID)(0)
+                                If Data IsNot Nothing Then
+                                    Dim SerializedData As Byte() = Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes(ID), Data})
+                                    Dim Output As Byte() = Cryptography.EncryptAES256(SerializedData, CryptographicKey)
+                                    Try : Stream.Write(Output, 0, Output.Length) : Catch StreamIOException As System.IO.IOException : Connected = False : End Try
+                                Else
+                                    Debug.Print(ItemName + " [" + Date.Now.ToString("yyyy/M/d - h:m:s") + "]: ERROR - DATA WAS NOTHING, REMOVING FROM QUEUE!")
+                                End If
+                                WriteQueue(ID).RemoveAt(0)
+                                End If
                         Catch ex As InvalidOperationException
                         End Try
                     Next

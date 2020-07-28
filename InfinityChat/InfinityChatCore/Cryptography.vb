@@ -3,7 +3,6 @@
         Dim SHA256 As New System.Security.Cryptography.SHA256Managed
         Dim AES As New System.Security.Cryptography.AesManaged With {.Key = SHA256.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(CryptographicKey))} : AES.GenerateIV()
         Dim AESCryptoTransform As System.Security.Cryptography.ICryptoTransform = AES.CreateEncryptor
-
         Dim output As Byte() = Serialization.SerializeArray({AES.IV, AESCryptoTransform.TransformFinalBlock(Data, 0, Data.Length)})
         AESCryptoTransform.Dispose()
         AES.Dispose()

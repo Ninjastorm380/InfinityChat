@@ -10,30 +10,27 @@
     End Property
     Private Sub ClientPing(Client As Networking.QueuedTcpClient)
         Dim PingLimiter As New ThreadLimiter(1)
-        Debug.Print("Client: Creating Ping Channel")
         Client.CreateQueue("PING")
         Do Until Client.QueueExists("PING") = True
             PingLimiter.Limit()
             Client.CreateQueue("PING")
         Loop
         PingLimiter.IterationsPerSecond = 5
-        Debug.Print("Client: Ping Channel Created")
         While Client.Connected = True And CoreRunning = True
-            Client.Write("PING", Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes("PING")}))
+            Dim PingMessage As Byte() = Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes("PING")})
+            Client.Write("PING", PingMessage)
             If Client.HasData("PING") = True Then Client.Read("PING")
             PingLimiter.Limit()
         End While
     End Sub
     Private Sub ClientMain(Client As Networking.QueuedTcpClient)
         Dim CommandLimiter As New ThreadLimiter(1)
-        Debug.Print("Client: Creating Command Channel")
         Client.CreateQueue("COMMAND")
         Do Until Client.QueueExists("COMMAND") = True
             CommandLimiter.Limit()
             Client.CreateQueue("COMMAND")
         Loop
         CommandLimiter.IterationsPerSecond = 5
-        Debug.Print("Client: Command Channel Created")
         While Client.Connected = True And CoreRunning = True
             If Client.HasData("COMMAND") = True Then
                 Dim Data As Byte()() = Serialization.DeserializeArray(Client.Read("COMMAND"))
@@ -54,6 +51,7 @@
             If Client IsNot Nothing Then Client.Dispose()
             Client = New Networking.QueuedTcpClient(AddressData(0), AddressData(1), EncryptionKey)
             Dim ServerMainMethodThread As New Threading.Thread(Sub()
+                                                                   Client.ItemName = "Client"
                                                                    RaiseEvent ClientConnected(Me, Client)
                                                                    ClientMain(Client)
                                                                    RaiseEvent ClientDisconnected(Me, Client)
