@@ -15,9 +15,10 @@
             PingLimiter.Limit()
             Client.CreateQueue("PING")
         Loop
+        Threading.Thread.Sleep(1000)
         PingLimiter.IterationsPerSecond = 5
+        Dim PingMessage As Byte() = Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes("ping")})
         While Client.Connected = True And CoreRunning = True
-            Dim PingMessage As Byte() = Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes("PING")})
             Client.Write("PING", PingMessage)
             If Client.HasData("PING") = True Then Client.Read("PING")
             PingLimiter.Limit()
@@ -30,6 +31,7 @@
             CommandLimiter.Limit()
             Client.CreateQueue("COMMAND")
         Loop
+        Threading.Thread.Sleep(1000)
         CommandLimiter.IterationsPerSecond = 5
         While Client.Connected = True And CoreRunning = True
             If Client.HasData("COMMAND") = True Then

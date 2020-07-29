@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\InfinityChat",
+    "\\InfinityChat\\InfinityChatCore",
+    "\\InfinityChat\\InfinityChatTestForm"
   ],
+  "SelectedNode": "\\InfinityChat\\InfinityChatTestForm\\InfinityChatLogo.ico",
   "PreviewInSolutionExplorer": false
 }
