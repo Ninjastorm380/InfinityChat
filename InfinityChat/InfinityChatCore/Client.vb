@@ -1,5 +1,5 @@
 ﻿Public Class Client
-    Private Client As Networking.QueuedTcpClient
+    Private WithEvents Client As Networking.QueuedTcpClient
     Public Event ClientConnected As EventHandler(Of Networking.QueuedTcpClient)
     Public Event ClientDisconnected As EventHandler(Of Networking.QueuedTcpClient)
     Private CoreRunning As Boolean = False

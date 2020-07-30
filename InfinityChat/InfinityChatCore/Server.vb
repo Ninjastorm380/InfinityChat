@@ -1,5 +1,4 @@
 ﻿Public Class Server : Inherits ServerBase
-
     Friend Overrides Sub ServerMain(Client As Networking.QueuedTcpClient)
         Dim CommandLimiter As New ThreadLimiter(1)
         Client.CreateQueue("COMMAND")
@@ -33,7 +32,6 @@
         PingLimiter.IterationsPerSecond = 5
         Dim PingMessage As Byte() = Serialization.SerializeArray({System.Text.ASCIIEncoding.ASCII.GetBytes("ping")})
         While Client.Connected = True And Running = True
-
             Client.Write("PING", PingMessage)
             If Client.HasData("PING") = True Then Client.Read("PING")
             PingLimiter.Limit()
@@ -60,23 +58,27 @@ Public MustInherit Class ServerBase
         Me.IsRunning = False
     End Sub
     Public Sub Start(Port As Integer, Key As String)
-        CryptographicKey = Key
+        If Me.IsRunning = False Then
+            CryptographicKey = Key
 #Disable Warning BC40000
-        Me.listener = New Net.Sockets.TcpListener(Port)
+            Me.listener = New Net.Sockets.TcpListener(Port)
 #Enable Warning BC40000
-        Me.ListenerThread = New Threading.Thread(AddressOf ListenerSub)
-        Me.IsRunning = True
-        Me.listener.Start()
-        Me.ListenerThread.Start()
-        RaiseEvent ServerStarted(Me, New EventArgs)
+            Me.ListenerThread = New Threading.Thread(AddressOf ListenerSub)
+            Me.IsRunning = True
+            Me.listener.Start()
+            Me.ListenerThread.Start()
+            RaiseEvent ServerStarted(Me, New EventArgs)
+        End If
     End Sub
     Public Sub [Stop]()
-        Me.IsRunning = False
-        Me.listener.Stop()
-        Me.listener = Nothing
-        Me.ListenerThread.Abort()
-        Me.ListenerThread = Nothing
-        RaiseEvent ServerStopped(Me, New EventArgs)
+        If Me.IsRunning = True Then
+            Me.IsRunning = False
+            Me.listener.Stop()
+            Me.listener = Nothing
+            Me.ListenerThread.Abort()
+            Me.ListenerThread = Nothing
+            RaiseEvent ServerStopped(Me, New EventArgs)
+        End If
     End Sub
     Private Sub ListenerSub()
         Dim ListenerLimiter As New ThreadLimiter(15)
