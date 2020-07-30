@@ -53,7 +53,6 @@
             If Client IsNot Nothing Then Client.Dispose()
             Client = New Networking.QueuedTcpClient(AddressData(0), AddressData(1), EncryptionKey)
             Dim ServerMainMethodThread As New Threading.Thread(Sub()
-                                                                   Client.ItemName = "Client"
                                                                    RaiseEvent ClientConnected(Me, Client)
                                                                    ClientMain(Client)
                                                                    RaiseEvent ClientDisconnected(Me, Client)

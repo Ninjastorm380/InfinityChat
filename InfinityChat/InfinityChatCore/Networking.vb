@@ -7,7 +7,6 @@
         End Class
 
         Private CryptographicKey As String = Nothing
-        Public Property ItemName As String = ""
         Public Shadows Property Connected As Boolean = False
         Private Stream As Net.Sockets.NetworkStream = Nothing
         Private ReadQueue As Dictionary(Of String, List(Of Byte()))
@@ -43,8 +42,6 @@
 
         Private Sub QueueMethod()
             Dim QueueLimiter As New ThreadLimiter(75)
-            Dim DataAvailable As Boolean = False
-            Debug.Print(ItemName + " - Connected = " + Connected.ToString)
             While Connected = True
                 Connected = Not StreamDisposed()
                 Try
@@ -60,8 +57,7 @@
                     End If
                 Catch ex As ObjectDisposedException
                     Connected = False
-                    End Try
-
+                End Try
                 For x = 0 To WriteQueue.Keys.Count - 1
                     Dim ID As String = WriteQueue.Keys(x)
                     Try
@@ -129,35 +125,6 @@
             If WriteQueue.Keys.Contains(ID) = True Then
                 WriteQueue.Remove(ID)
             End If
-        End Sub
-        Shared DebugWriterQueue As New List(Of String)
-        Shared DebugWriterRunning As Boolean = False
-        Private Sub WriteToLog(Message As String)
-            If DebugWriterRunning = True Then DebugWriterQueue.Add(Message)
-        End Sub
-        Public Shared Sub EnableDebug()
-            DebugWriterRunning = True
-            Dim DebugWriterThread As New Threading.Thread(Sub()
-
-                                                              While DebugWriterRunning = True
-                                                                  If DebugWriterQueue.Count > 0 Then
-                                                                      Do Until DebugWriterQueue.Count = 0
-                                                                          Dim Stream As New IO.FileStream("./debug.log", IO.FileMode.Append)
-                                                                          Dim MessageData As Byte() = System.Text.ASCIIEncoding.ASCII.GetBytes(DebugWriterQueue(0) + vbCrLf)
-                                                                          Stream.Write(MessageData, 0, MessageData.Length)
-                                                                          Stream.Flush()
-                                                                          Stream.Close()
-                                                                          DebugWriterQueue.RemoveAt(0)
-                                                                      Loop
-                                                                  End If
-                                                                  Threading.Thread.Sleep(100)
-                                                              End While
-                                                              DebugWriterRunning = False
-
-                                                          End Sub) : DebugWriterThread.Start()
-        End Sub
-        Public Shared Sub DisableDebug()
-            DebugWriterRunning = False
         End Sub
     End Class
 End Class

@@ -38,12 +38,4 @@
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Client.Disconnect()
     End Sub
-
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        InfinityChatCore.Networking.QueuedTcpClient.EnableDebug()
-    End Sub
-
-    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        InfinityChatCore.Networking.QueuedTcpClient.DisableDebug()
-    End Sub
 End Class

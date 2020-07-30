@@ -86,7 +86,6 @@ Public MustInherit Class ServerBase
             If listener.Pending() Then
                 Dim Client As New Networking.QueuedTcpClient(Me.listener.AcceptSocket, CryptographicKey)
                 Dim ServerMainThread As New Threading.Thread(Sub()
-                                                                 Client.ItemName = "Server"
                                                                  Dim ServerClient As Networking.QueuedTcpClient = Client
                                                                  RaiseEvent ClientConnected(Me, ServerClient)
                                                                  ServerMain(Client)
