@@ -1,0 +1,11 @@
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\bin\Release\InfinityChat.exe.config
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\bin\Release\InfinityChat.exe
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\bin\Release\InfinityChat.pdb
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\bin\Release\InfinityChat.xml
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\obj\Release\InfinityChat.Form1.resources
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\obj\Release\InfinityChat.Resources.resources
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\obj\Release\InfinityChat.vbproj.GenerateResource.cache
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\obj\Release\InfinityChat.vbproj.CoreCompileInputs.cache
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\obj\Release\InfinityChat.exe
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\obj\Release\InfinityChat.xml
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChat\obj\Release\InfinityChat.pdb

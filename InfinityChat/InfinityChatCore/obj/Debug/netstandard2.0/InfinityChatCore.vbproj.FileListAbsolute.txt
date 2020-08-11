@@ -1,0 +1,9 @@
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChatCore\bin\Debug\netstandard2.0\InfinityChatCore.deps.json
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChatCore\bin\Debug\netstandard2.0\InfinityChatCore.dll
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChatCore\bin\Debug\netstandard2.0\InfinityChatCore.pdb
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChatCore\obj\Debug\netstandard2.0\InfinityChatCore.AssemblyInfoInputs.cache
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChatCore\obj\Debug\netstandard2.0\InfinityChatCore.AssemblyInfo.vb
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChatCore\obj\Debug\netstandard2.0\InfinityChatCore.vbproj.CoreCompileInputs.cache
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChatCore\obj\Debug\netstandard2.0\InfinityChatCore.dll
+C:\Users\EpicDev\Source\Repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChatCore\obj\Debug\netstandard2.0\InfinityChatCore.pdb
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChat\InfinityChatCore\obj\Debug\netstandard2.0\InfinityChatCore.vbprojAssemblyReference.cache
