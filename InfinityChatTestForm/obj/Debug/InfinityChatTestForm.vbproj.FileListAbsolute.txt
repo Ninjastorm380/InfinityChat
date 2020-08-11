@@ -1,0 +1,15 @@
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\bin\Debug\InfinityChatTestForm.exe.config
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\bin\Debug\InfinityChatTestForm.exe
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\bin\Debug\InfinityChatTestForm.pdb
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\bin\Debug\InfinityChatTestForm.xml
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\bin\Debug\InfinityChatCore.dll
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\bin\Debug\InfinityChatCore.pdb
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\obj\Debug\InfinityChatTestForm.vbprojAssemblyReference.cache
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\obj\Debug\InfinityChatTestForm.Form1.resources
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\obj\Debug\InfinityChatTestForm.Resources.resources
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\obj\Debug\InfinityChatTestForm.vbproj.GenerateResource.cache
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\obj\Debug\InfinityChatTestForm.vbproj.CoreCompileInputs.cache
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\obj\Debug\InfinityChatTestForm.vbproj.CopyComplete
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\obj\Debug\InfinityChatTestForm.exe
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\obj\Debug\InfinityChatTestForm.xml
+C:\Users\EpicDev\source\repos\Ninjastorm380\InfinityChat\InfinityChatTestForm\obj\Debug\InfinityChatTestForm.pdb
