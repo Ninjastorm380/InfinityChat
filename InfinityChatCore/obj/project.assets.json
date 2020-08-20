@@ -180,20 +180,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\EpicDev\\.nuget\\packages\\": {}
+    "C:\\Users\\Marcus\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\EpicDev\\source\\repos\\Ninjastorm380\\InfinityChat\\InfinityChatCore\\InfinityChatCore.vbproj",
+      "projectUniqueName": "E:\\repositories\\Ninjastorm380\\InfinityChatCore\\InfinityChatCore.vbproj",
       "projectName": "InfinityChatCore",
-      "projectPath": "C:\\Users\\EpicDev\\source\\repos\\Ninjastorm380\\InfinityChat\\InfinityChatCore\\InfinityChatCore.vbproj",
-      "packagesPath": "C:\\Users\\EpicDev\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\EpicDev\\source\\repos\\Ninjastorm380\\InfinityChat\\InfinityChatCore\\obj\\",
+      "projectPath": "E:\\repositories\\Ninjastorm380\\InfinityChatCore\\InfinityChatCore.vbproj",
+      "packagesPath": "C:\\Users\\Marcus\\.nuget\\packages\\",
+      "outputPath": "E:\\repositories\\Ninjastorm380\\InfinityChatCore\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "C:\\Users\\EpicDev\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Marcus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
@@ -233,7 +238,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
