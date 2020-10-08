@@ -1,0 +1,13 @@
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\bin\Debug\InfinityChat.exe.config
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\bin\Debug\InfinityChat.exe
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\bin\Debug\InfinityChat.pdb
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\bin\Debug\InfinityChat.xml
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\obj\Debug\InfinityChat.vbprojAssemblyReference.cache
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\obj\Debug\InfinityChat.Form1.resources
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\obj\Debug\InfinityChat.Resources.resources
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\obj\Debug\InfinityChat.Renderer.resources
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\obj\Debug\InfinityChat.vbproj.GenerateResource.cache
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\obj\Debug\InfinityChat.vbproj.CoreCompileInputs.cache
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\obj\Debug\InfinityChat.exe
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\obj\Debug\InfinityChat.xml
+E:\repositories\Ninjastorm380\InfinityChat\InfinityChat\obj\Debug\InfinityChat.pdb
