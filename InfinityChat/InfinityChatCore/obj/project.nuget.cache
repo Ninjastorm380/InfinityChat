@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "6z8Kwxc7gGSJAtbQHLpt+neQN6CI0NmHNY/YHcaTJabu3rsipDRsDwezYjE83lxqi0bXkvq5ii3yif4YNOluyA==",
+  "dgSpecHash": "3HV0DuG+QJd2noFCTBq7ysnE0k4v8bggvrmmwRrOEYqUpQxAqYt2cXXQVd1Nlfn8Uh+xV4+iqi+WgJr6JimY9w==",
   "success": true,
-  "projectFilePath": "E:\\repositories\\Ninjastorm380\\InfinityChat\\InfinityChatCore\\InfinityChatCore.vbproj",
+  "projectFilePath": "E:\\Documents\\Repositories\\InfinityChat\\InfinityChat\\InfinityChatCore\\InfinityChatCore.vbproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Marcus\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\Marcus\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+    "C:\\Users\\demon4hire\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\demon4hire\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
   ],
   "logs": []
 }
